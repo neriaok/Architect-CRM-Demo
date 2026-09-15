@@ -32,6 +32,7 @@ Every response is `{ success: true, data }` or `{ success: false, error }`.
 - `GET /api/projects/:id/interactions` — past interactions for a project, newest first
 - `DELETE /api/projects/:id/interactions/:interactionId` — deletes one interaction
 - `POST /api/projects/:id/contacts`, `GET /api/projects/:id/contacts` — contacts (contractor/engineer/consultant/...) linked to a project
+- `POST /api/assistant/ask` — ask a free-form question about the firm's projects/clients; see Stage E below
 
 Project `stage` is one of: `inquiry`, `consultation`, `quote`, `contract`,
 `preliminary_design`, `permits`, `detailed_design`, `construction_oversight`, `handover`.
@@ -115,3 +116,51 @@ against a per-stage tolerance (e.g. 3 days for a fresh `inquiry`, 30 for
 project exceeds its stage's threshold. Computed server-side rather than
 purely client-side so the same logic can be reused by other features
 (e.g. the general AI assistant) without duplicating it.
+
+## Stage E — General AI assistant with a graceful fallback (done)
+
+A floating "Ask the assistant" chat widget, available on every page, that
+answers free-form questions about the firm's real project and client data
+("which projects are stuck?", "how many projects are in the permits
+stage?", or a lookup by client/project name).
+
+- **Backend** (`services/assistantService.ts`): builds a plain-text context
+  of every project (title, client, stage, days since last contact, needs
+  attention) from the same data `Stage D` computes, and sends it to the
+  `claude` CLI (`services/claudeCli.ts` - the low-level runner shared with
+  the Stage 3 summarizer) alongside the question.
+- **Graceful degradation, not an error**: if the CLI is unavailable (not
+  installed/authenticated - e.g. this exact deployment on Vercel, which has
+  no local CLI at all), `askAssistant` catches that and falls back to
+  `answerFromKeywords` - a small keyword matcher over the same real data
+  (stuck-project questions, counts, name lookups). The response always
+  includes a `source: "ai" | "demo"` field; the widget shows a small "demo
+  mode" badge on `demo` answers instead of failing the request.
+- The interaction summarizer (Stage 3) takes the opposite approach on
+  purpose: an "AI Edit" is an explicit action the user chose, so instead of
+  silently substituting a worse answer, a CLI failure there surfaces a
+  clear "AI service is currently unavailable" message and leaves
+  "Save as written" as the obvious next step.
+
+## Deployment (Vercel + MongoDB Atlas)
+
+The app deploys as a single Vercel project: the React build is served as
+static output, and the Express API runs as a Vercel serverless function
+(`server/api/index.ts`, wired up via the root `vercel.json`). The database
+is a MongoDB Atlas cluster - Vercel's functions have no fixed IP and no
+local disk, so a local `mongod` isn't an option there.
+
+Setup:
+
+```
+vercel link
+vercel env add MONGODB_URI production   # mongodb+srv://<user>:<password>@<cluster>/<db-name>
+vercel env add MONGODB_URI preview
+vercel --prod
+```
+
+Since Vercel's serverless environment doesn't have the `claude` CLI
+installed, the deployed instance always answers assistant questions via the
+Stage E keyword fallback and always shows the "AI service is currently
+unavailable" message on "AI Edit" - by design, not a bug. Running the
+`claude` CLI-backed features live requires the local dev setup from Stage 1.
