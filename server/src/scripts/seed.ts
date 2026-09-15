@@ -3,11 +3,17 @@ import { connectDB } from "../db/connectDB";
 import { Client } from "../models/Client";
 import { Project } from "../models/Project";
 import { Contact } from "../models/Contact";
+import { Interaction } from "../models/Interaction";
 
 async function seed(): Promise<void> {
   await connectDB();
 
-  await Promise.all([Client.deleteMany({}), Project.deleteMany({}), Contact.deleteMany({})]);
+  await Promise.all([
+    Client.deleteMany({}),
+    Project.deleteMany({}),
+    Contact.deleteMany({}),
+    Interaction.deleteMany({}),
+  ]);
 
   const clients = await Client.insertMany([
     {
