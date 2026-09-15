@@ -14,5 +14,4 @@ export const config = {
   port: Number(process.env.PORT) || 4000,
   nodeEnv: process.env.NODE_ENV || "development",
   mongodbUri: requireEnv("MONGODB_URI"),
-  anthropicApiKey: process.env.ANTHROPIC_API_KEY || "",
 };

@@ -4,7 +4,7 @@ import { Project } from "../models/Project";
 import { asyncHandler } from "../middleware/asyncHandler";
 import { ApiResponse } from "../types/ApiResponse";
 import { ApiError } from "../utils/ApiError";
-import { summarizeInteraction } from "../services/anthropicService";
+import { summarizeInteraction } from "../services/claudeCliService";
 
 interface CreateInteractionBody {
   rawText: string;
@@ -22,13 +22,12 @@ export const createInteraction = asyncHandler(async (req: Request, res: Response
     throw ApiError.notFound("Project not found");
   }
 
-  const { summary, suggestedFollowUp } = await summarizeInteraction(rawText);
+  const { summary } = await summarizeInteraction(rawText);
 
   const interaction = await Interaction.create({
     projectId: project._id,
     rawText,
     summary,
-    suggestedFollowUp,
   });
 
   const body: ApiResponse<IInteraction> = { success: true, data: interaction };

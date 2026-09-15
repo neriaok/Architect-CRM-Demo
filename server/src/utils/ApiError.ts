@@ -19,7 +19,7 @@ export class ApiError extends Error {
     return new ApiError(500, message);
   }
 
-  static tooManyRequests(message: string): ApiError {
-    return new ApiError(429, message);
+  static badGateway(message: string): ApiError {
+    return new ApiError(502, message);
   }
 }
