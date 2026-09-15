@@ -6,7 +6,8 @@ const CLI_TIMEOUT_MS = 45_000;
 
 const PROMPT_INSTRUCTION =
   "Summarize this client interaction in 2-3 sentences, then suggest one concrete " +
-  "follow-up task. Respond in plain text, no markdown formatting.\n\n";
+  "follow-up task. Respond in plain text, no markdown formatting. Write your response " +
+  "in the same language as the interaction notes below - do not translate it.\n\n";
 
 export interface InteractionSummary {
   summary: string;

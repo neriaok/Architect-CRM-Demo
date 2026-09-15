@@ -5,6 +5,7 @@ export interface IInteraction extends Document {
   date: Date;
   rawText: string;
   summary: string;
+  summarizedByAi: boolean;
   suggestedFollowUp?: string;
   createdAt: Date;
   updatedAt: Date;
@@ -16,6 +17,7 @@ const interactionSchema = new Schema<IInteraction>(
     date: { type: Date, default: Date.now, required: true },
     rawText: { type: String, required: true, trim: true },
     summary: { type: String, required: true },
+    summarizedByAi: { type: Boolean, required: true, default: false },
     suggestedFollowUp: { type: String },
   },
   { timestamps: true }

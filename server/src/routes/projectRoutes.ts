@@ -7,7 +7,11 @@ import {
   updateProjectStage,
   deleteProject,
 } from "../controllers/projectController";
-import { createInteraction, listInteractions } from "../controllers/interactionController";
+import {
+  createInteraction,
+  listInteractions,
+  deleteInteraction,
+} from "../controllers/interactionController";
 import { createContact, listContacts } from "../controllers/contactController";
 
 const router = Router();
@@ -21,6 +25,7 @@ router.delete("/:id", deleteProject);
 
 router.post("/:id/interactions", createInteraction);
 router.get("/:id/interactions", listInteractions);
+router.delete("/:id/interactions/:interactionId", deleteInteraction);
 
 router.post("/:id/contacts", createContact);
 router.get("/:id/contacts", listContacts);

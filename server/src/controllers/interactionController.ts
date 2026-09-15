@@ -8,10 +8,11 @@ import { summarizeInteraction } from "../services/claudeCliService";
 
 interface CreateInteractionBody {
   rawText: string;
+  useAi?: boolean;
 }
 
 export const createInteraction = asyncHandler(async (req: Request, res: Response) => {
-  const { rawText } = req.body as CreateInteractionBody;
+  const { rawText, useAi } = req.body as CreateInteractionBody;
 
   if (!rawText || typeof rawText !== "string" || !rawText.trim()) {
     throw ApiError.badRequest("rawText is required");
@@ -22,12 +23,13 @@ export const createInteraction = asyncHandler(async (req: Request, res: Response
     throw ApiError.notFound("Project not found");
   }
 
-  const { summary } = await summarizeInteraction(rawText);
+  const summary = useAi ? (await summarizeInteraction(rawText)).summary : rawText.trim();
 
   const interaction = await Interaction.create({
     projectId: project._id,
     rawText,
     summary,
+    summarizedByAi: Boolean(useAi),
   });
 
   const body: ApiResponse<IInteraction> = { success: true, data: interaction };
@@ -42,5 +44,18 @@ export const listInteractions = asyncHandler(async (req: Request, res: Response)
 
   const interactions = await Interaction.find({ projectId: project._id }).sort({ date: -1 });
   const body: ApiResponse<IInteraction[]> = { success: true, data: interactions };
+  res.json(body);
+});
+
+export const deleteInteraction = asyncHandler(async (req: Request, res: Response) => {
+  const interaction = await Interaction.findOneAndDelete({
+    _id: req.params.interactionId,
+    projectId: req.params.id,
+  });
+  if (!interaction) {
+    throw ApiError.notFound("Interaction not found");
+  }
+
+  const body: ApiResponse<IInteraction> = { success: true, data: interaction };
   res.json(body);
 });
