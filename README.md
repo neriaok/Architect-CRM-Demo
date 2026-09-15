@@ -80,3 +80,11 @@ instead of a crash.
   instead of a read-only badge.
 - A **Contacts** section lists everyone linked to the project (name + role —
   contractor, engineer, consultant, ...), backed by a new `Contact` model.
+
+## Stage B — "New Project" flow (done)
+
+A "+ New Project" button on the projects list opens a modal to create a
+Client + Project together in one flow (client name, project title, initial
+stage). It makes two sequential calls to the existing `POST /clients` and
+`POST /projects` endpoints, then navigates straight to the new project's
+detail page.
