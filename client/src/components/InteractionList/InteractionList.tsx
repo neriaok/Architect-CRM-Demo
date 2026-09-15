@@ -28,9 +28,11 @@ const InteractionList: FC<InteractionListProps> = ({ interactions }) => {
             })}
           </div>
           <p className={styles.summary}>{interaction.summary}</p>
-          <p className={styles.followUp}>
-            <strong>{t.followUpLabel}:</strong> {interaction.suggestedFollowUp}
-          </p>
+          {interaction.suggestedFollowUp && (
+            <p className={styles.followUp}>
+              <strong>{t.followUpLabel}:</strong> {interaction.suggestedFollowUp}
+            </p>
+          )}
           <details className={styles.details}>
             <summary>{t.originalTextLabel}</summary>
             <p className={styles.rawText}>{interaction.rawText}</p>

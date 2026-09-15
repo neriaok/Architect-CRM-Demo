@@ -42,7 +42,7 @@ export interface Interaction {
   date: string;
   rawText: string;
   summary: string;
-  suggestedFollowUp: string;
+  suggestedFollowUp?: string;
   createdAt: string;
   updatedAt: string;
 }
