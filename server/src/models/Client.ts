@@ -2,7 +2,7 @@ import { Document, Schema, model } from "mongoose";
 
 export interface IClient extends Document {
   name: string;
-  contactInfo: {
+  contactInfo?: {
     email?: string;
     phone?: string;
     address?: string;
