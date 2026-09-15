@@ -85,6 +85,29 @@ export const updateProject = asyncHandler(async (req: Request, res: Response) =>
   res.json(body);
 });
 
+interface UpdateProjectStageBody {
+  stage: ProjectStage;
+}
+
+export const updateProjectStage = asyncHandler(async (req: Request, res: Response) => {
+  const { stage } = req.body as UpdateProjectStageBody;
+
+  if (!stage || !PROJECT_STAGES.includes(stage)) {
+    throw ApiError.badRequest(`stage must be one of: ${PROJECT_STAGES.join(", ")}`);
+  }
+
+  const project = await Project.findByIdAndUpdate(
+    req.params.id,
+    { stage },
+    { new: true, runValidators: true }
+  ).populate("clientId");
+  if (!project) {
+    throw ApiError.notFound("Project not found");
+  }
+  const body: ApiResponse<IProject> = { success: true, data: project };
+  res.json(body);
+});
+
 export const deleteProject = asyncHandler(async (req: Request, res: Response) => {
   const project = await Project.findByIdAndDelete(req.params.id);
   if (!project) {

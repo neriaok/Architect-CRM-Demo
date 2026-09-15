@@ -2,11 +2,12 @@ import mongoose from "mongoose";
 import { connectDB } from "../db/connectDB";
 import { Client } from "../models/Client";
 import { Project } from "../models/Project";
+import { Contact } from "../models/Contact";
 
 async function seed(): Promise<void> {
   await connectDB();
 
-  await Promise.all([Client.deleteMany({}), Project.deleteMany({})]);
+  await Promise.all([Client.deleteMany({}), Project.deleteMany({}), Contact.deleteMany({})]);
 
   const clients = await Client.insertMany([
     {
@@ -86,7 +87,7 @@ async function seed(): Promise<void> {
     },
   ]);
 
-  await Project.insertMany([
+  const projects = await Project.insertMany([
     {
       title: "שיפוץ דירת כהן",
       clientId: clients[0]._id,
@@ -169,7 +170,40 @@ async function seed(): Promise<void> {
     },
   ]);
 
-  console.log(`Seeded ${clients.length} clients and 16 projects.`);
+  const contacts = await Contact.insertMany([
+    {
+      name: "אריק שמעוני",
+      role: "contractor",
+      projectId: projects[0]._id,
+      contactInfo: { phone: "052-987-6543" },
+    },
+    {
+      name: "ד\"ר לילך ברק",
+      role: "engineer",
+      projectId: projects[0]._id,
+      contactInfo: { email: "lilach.barak@example.com" },
+    },
+    {
+      name: "יונתן אבידור",
+      role: "contractor",
+      projectId: projects[1]._id,
+      contactInfo: { phone: "050-111-2233" },
+    },
+    {
+      name: "מיכל רוזן",
+      role: "consultant",
+      projectId: projects[5]._id,
+      contactInfo: { email: "michal.rozen@example.com", phone: "054-333-2211" },
+    },
+    {
+      name: "Daniel Cohen-Levy",
+      role: "engineer",
+      projectId: projects[4]._id,
+      contactInfo: { email: "daniel.cl@example.com" },
+    },
+  ]);
+
+  console.log(`Seeded ${clients.length} clients, ${projects.length} projects, and ${contacts.length} contacts.`);
   await mongoose.disconnect();
 }
 
