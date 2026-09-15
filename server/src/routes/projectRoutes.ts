@@ -6,6 +6,7 @@ import {
   updateProject,
   deleteProject,
 } from "../controllers/projectController";
+import { createInteraction, listInteractions } from "../controllers/interactionController";
 
 const router = Router();
 
@@ -14,5 +15,8 @@ router.get("/", listProjects);
 router.get("/:id", getProject);
 router.put("/:id", updateProject);
 router.delete("/:id", deleteProject);
+
+router.post("/:id/interactions", createInteraction);
+router.get("/:id/interactions", listInteractions);
 
 export default router;

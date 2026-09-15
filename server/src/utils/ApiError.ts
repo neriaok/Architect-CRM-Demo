@@ -18,4 +18,8 @@ export class ApiError extends Error {
   static internal(message: string): ApiError {
     return new ApiError(500, message);
   }
+
+  static tooManyRequests(message: string): ApiError {
+    return new ApiError(429, message);
+  }
 }
