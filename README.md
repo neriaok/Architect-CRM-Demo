@@ -13,7 +13,7 @@ a shared `ApiResponse<T>` type, separated routes/controllers/models).
 ```
 cd server
 npm install
-cp .env.example .env   # fill in MONGODB_URI (defaults to local) and ANTHROPIC_API_KEY when needed
+cp .env.example .env   # fill in MONGODB_URI (defaults to local)
 npm run dev
 npm run seed            # optional: populates sample clients/projects for local testing
 ```
@@ -58,21 +58,27 @@ alongside it (see Stage 1 setup, including `npm run seed` for sample data).
 
 ## Stage 3 — AI-powered interaction summaries (done)
 
-Backend calls the Claude API (server-side only, key from `.env` via `config.ts`,
-never exposed to the frontend) to turn free-text call/meeting notes into a
-structured summary and a suggested follow-up task.
+Turns free-text call/meeting notes into a summary and a suggested follow-up
+task.
 
-- **Backend**: `services/anthropicService.ts` calls `claude-opus-5` with a
-  forced tool call so the summary/follow-up come back as validated structured
-  data, not parsed free text. Typed error handling for rate limits, a missing
-  API key, and other upstream failures.
+- **Backend**: `services/claudeCliService.ts` spawns the local `claude` CLI
+  (`claude -p`, non-interactive mode) via Node's `execFile` — no API key,
+  no SDK. The instruction prompt is prepended to the user's text and the
+  whole thing is piped in over **stdin**, never passed as a command-line
+  argument or interpolated into a shell string, so free-form user input
+  can't reach argv or get shell-interpreted. Explicit handling for the CLI
+  missing (`ENOENT`), timing out (45s), and non-zero exits, each mapped to
+  a `502 Bad Gateway` `ApiError` with a clear message instead of a raw
+  stack trace.
 - **Frontend**: a "paste a call/meeting summary" form on the project detail
-  page, plus a list of past interactions (summary, suggested follow-up, and
-  the original text collapsed under a toggle).
+  page, plus a list of past interactions (summary and the original text
+  collapsed under a toggle), updated via RTK Query cache invalidation with
+  no full page reload.
 
-Requires a real `ANTHROPIC_API_KEY` in `server/.env` to actually generate
-summaries — without one, the endpoint fails gracefully with a clear error
-instead of a crash.
+Requires the `claude` CLI to already be installed and authenticated on the
+machine running the server (`claude auth status` / `ant auth status`) —
+without it, the endpoint fails gracefully with a clear error instead of a
+crash.
 
 ## Stage A — Project detail: stage control + contacts (done)
 
