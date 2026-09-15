@@ -27,6 +27,7 @@ export interface Translations {
   aiEditHint: string;
   interactionSubmitting: string;
   interactionSubmitError: string;
+  aiServiceUnavailable: string;
   noInteractionsYet: string;
   aiGeneratedBadge: string;
   deleteButton: string;
@@ -85,6 +86,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     aiEditHint: "זה עשוי לקחת כמה שניות…",
     interactionSubmitting: "מסכם…",
     interactionSubmitError: "הסיכום נכשל. נסו שוב.",
+    aiServiceUnavailable: "השירות לא זמין כרגע. אפשר לשמור את הטקסט כפי שנכתב במקום.",
     noInteractionsYet: "אין עדיין אינטראקציות.",
     aiGeneratedBadge: "נוצר ע\"י AI",
     deleteButton: "מחיקה",
@@ -156,6 +158,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     aiEditHint: "This may take a few seconds…",
     interactionSubmitting: "Summarizing…",
     interactionSubmitError: "Failed to summarize. Please try again.",
+    aiServiceUnavailable: "The AI service is currently unavailable. You can save the text as written instead.",
     noInteractionsYet: "No interactions yet.",
     aiGeneratedBadge: "AI-generated",
     deleteButton: "Delete",

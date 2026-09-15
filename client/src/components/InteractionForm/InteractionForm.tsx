@@ -11,18 +11,21 @@ interface InteractionFormProps {
 const InteractionForm: FC<InteractionFormProps> = ({ projectId }) => {
   const [rawText, setRawText] = useState("");
   const [pendingMode, setPendingMode] = useState<"ai" | "plain" | null>(null);
-  const [createInteraction, { isLoading, isError }] = useCreateInteractionMutation();
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [createInteraction, { isLoading }] = useCreateInteractionMutation();
   const { t } = useTranslation();
 
   const handleSubmit = async (useAi: boolean) => {
     if (!rawText.trim() || isLoading) return;
 
+    setSubmitError(null);
     setPendingMode(useAi ? "ai" : "plain");
     try {
       await createInteraction({ projectId, rawText, useAi }).unwrap();
       setRawText("");
-    } catch {
-      // isError from the hook already surfaces this to the user
+    } catch (err) {
+      const status = typeof err === "object" && err !== null ? (err as { status?: unknown }).status : undefined;
+      setSubmitError(status === 502 ? t.aiServiceUnavailable : t.interactionSubmitError);
     } finally {
       setPendingMode(null);
     }
@@ -38,7 +41,7 @@ const InteractionForm: FC<InteractionFormProps> = ({ projectId }) => {
         rows={4}
       />
       <div className={styles.footer}>
-        {isError && <span className={styles.error}>{t.interactionSubmitError}</span>}
+        {submitError && <span className={styles.error}>{submitError}</span>}
         {pendingMode === "ai" && <span className={styles.hint}>{t.aiEditHint}</span>}
         <button
           type="button"
