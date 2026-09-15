@@ -5,6 +5,7 @@ import { PROJECT_STAGES, ProjectStage } from "../models/projectStages";
 import { asyncHandler } from "../middleware/asyncHandler";
 import { ApiResponse } from "../types/ApiResponse";
 import { ApiError } from "../utils/ApiError";
+import { computeProjectAttention, getLatestInteractionDates } from "../utils/projectAttention";
 
 interface CreateProjectBody {
   title: string;
@@ -41,10 +42,22 @@ export const createProject = asyncHandler(async (req: Request, res: Response) =>
   res.status(201).json(body);
 });
 
-// Lists all projects with their linked client populated in place of clientId.
+// Lists all projects with their linked client populated in place of clientId,
+// plus a computed needsAttention flag based on how long it's been since the
+// project's last interaction relative to its stage's threshold.
 export const listProjects = asyncHandler(async (_req: Request, res: Response) => {
   const projects = await Project.find().sort({ createdAt: -1 }).populate("clientId");
-  const body: ApiResponse<IProject[]> = { success: true, data: projects };
+  const latestInteractionDates = await getLatestInteractionDates();
+
+  const projectsWithAttention = projects.map((project) => ({
+    ...project.toObject(),
+    ...computeProjectAttention(project, latestInteractionDates.get(project._id.toString())),
+  }));
+
+  const body: ApiResponse<typeof projectsWithAttention> = {
+    success: true,
+    data: projectsWithAttention,
+  };
   res.json(body);
 });
 
