@@ -10,13 +10,23 @@ import styles from "./ProjectsListPage.module.css";
 const ProjectsListPage: FC = () => {
   const { data: projects, isLoading, isError } = useGetProjectsQuery();
   const [stageFilter, setStageFilter] = useState<string>("all");
+  const [searchQuery, setSearchQuery] = useState("");
   const { t } = useTranslation();
 
   const filteredProjects = useMemo(() => {
     if (!projects) return [];
-    if (stageFilter === "all") return projects;
-    return projects.filter((project) => project.stage === stageFilter);
-  }, [projects, stageFilter]);
+
+    const query = searchQuery.trim().toLowerCase();
+
+    return projects.filter((project) => {
+      const matchesStage = stageFilter === "all" || project.stage === stageFilter;
+      const matchesQuery =
+        !query ||
+        project.title.toLowerCase().includes(query) ||
+        project.clientId.name.toLowerCase().includes(query);
+      return matchesStage && matchesQuery;
+    });
+  }, [projects, stageFilter, searchQuery]);
 
   if (isLoading) return <p>{t.loadingProjects}</p>;
   if (isError) return <p className={styles.error}>{t.failedToLoadProjects}</p>;
@@ -25,17 +35,26 @@ const ProjectsListPage: FC = () => {
     <div>
       <div className={styles.toolbar}>
         <h2>{t.projectsTitle}</h2>
-        <label className={styles.filter}>
-          {t.stageLabel}
-          <select value={stageFilter} onChange={(e) => setStageFilter(e.target.value)}>
-            <option value="all">{t.allStages}</option>
-            {PROJECT_STAGES.map((stage) => (
-              <option key={stage} value={stage}>
-                {t.stageLabels[stage]}
-              </option>
-            ))}
-          </select>
-        </label>
+        <div className={styles.controls}>
+          <input
+            type="search"
+            className={styles.search}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder={t.searchPlaceholder}
+          />
+          <label className={styles.filter}>
+            {t.stageLabel}
+            <select value={stageFilter} onChange={(e) => setStageFilter(e.target.value)}>
+              <option value="all">{t.allStages}</option>
+              {PROJECT_STAGES.map((stage) => (
+                <option key={stage} value={stage}>
+                  {t.stageLabels[stage]}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
       </div>
 
       {filteredProjects.length === 0 ? (

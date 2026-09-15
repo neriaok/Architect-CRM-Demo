@@ -11,6 +11,23 @@
   margin: 0;
 }
 
+.controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.search {
+  padding: 6px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 14px;
+  min-width: 200px;
+}
+
 .filter {
   display: flex;
   align-items: center;

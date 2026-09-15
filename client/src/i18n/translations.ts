@@ -4,6 +4,7 @@ export type Language = "he" | "en";
 
 export interface Translations {
   projectsTitle: string;
+  searchPlaceholder: string;
   stageLabel: string;
   allStages: string;
   noProjectsMatch: string;
@@ -31,6 +32,7 @@ export interface Translations {
 export const TRANSLATIONS: Record<Language, Translations> = {
   he: {
     projectsTitle: "פרויקטים",
+    searchPlaceholder: "חיפוש לפי שם לקוח או פרויקט...",
     stageLabel: "שלב",
     allStages: "כל השלבים",
     noProjectsMatch: "אין פרויקטים התואמים לסינון זה.",
@@ -66,6 +68,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
   },
   en: {
     projectsTitle: "Projects",
+    searchPlaceholder: "Search by client or project name...",
     stageLabel: "Stage",
     allStages: "All stages",
     noProjectsMatch: "No projects match this filter.",
