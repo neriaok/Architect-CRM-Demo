@@ -17,6 +17,14 @@ export interface Translations {
   phoneLabel: string;
   addressLabel: string;
   notesLabel: string;
+  interactionsSectionTitle: string;
+  interactionFormPlaceholder: string;
+  interactionSubmitButton: string;
+  interactionSubmitting: string;
+  interactionSubmitError: string;
+  noInteractionsYet: string;
+  followUpLabel: string;
+  originalTextLabel: string;
   stageLabels: Record<ProjectStage, string>;
 }
 
@@ -36,6 +44,14 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     phoneLabel: "טלפון",
     addressLabel: "כתובת",
     notesLabel: "הערות",
+    interactionsSectionTitle: "אינטראקציות",
+    interactionFormPlaceholder: "הדביקו כאן סיכום של שיחה או פגישה עם הלקוח...",
+    interactionSubmitButton: "סכם ושמור",
+    interactionSubmitting: "מסכם…",
+    interactionSubmitError: "הסיכום נכשל. נסו שוב.",
+    noInteractionsYet: "אין עדיין אינטראקציות.",
+    followUpLabel: "משימת המשך מוצעת",
+    originalTextLabel: "הטקסט המקורי",
     stageLabels: {
       inquiry: "פנייה ראשונית",
       consultation: "ייעוץ",
@@ -63,6 +79,14 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     phoneLabel: "Phone",
     addressLabel: "Address",
     notesLabel: "Notes",
+    interactionsSectionTitle: "Interactions",
+    interactionFormPlaceholder: "Paste a summary of a call or meeting with the client...",
+    interactionSubmitButton: "Summarize & Save",
+    interactionSubmitting: "Summarizing…",
+    interactionSubmitError: "Failed to summarize. Please try again.",
+    noInteractionsYet: "No interactions yet.",
+    followUpLabel: "Suggested follow-up",
+    originalTextLabel: "Original text",
     stageLabels: {
       inquiry: "Inquiry",
       consultation: "Consultation",

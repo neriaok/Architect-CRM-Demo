@@ -1,13 +1,16 @@
 import type { FC } from "react";
 import { Link, useParams } from "react-router-dom";
-import { useGetProjectByIdQuery } from "../../features/projects/projectsApi";
+import { useGetInteractionsQuery, useGetProjectByIdQuery } from "../../features/projects/projectsApi";
 import StageBadge from "../../components/StageBadge";
+import InteractionForm from "../../components/InteractionForm";
+import InteractionList from "../../components/InteractionList";
 import { useTranslation } from "../../hooks/useTranslation";
 import styles from "./ProjectDetailPage.module.css";
 
 const ProjectDetailPage: FC = () => {
   const { id } = useParams<{ id: string }>();
   const { data: project, isLoading, isError } = useGetProjectByIdQuery(id ?? "", { skip: !id });
+  const { data: interactions } = useGetInteractionsQuery(id ?? "", { skip: !id });
   const { t, language } = useTranslation();
 
   if (isLoading) return <p>{t.loadingProject}</p>;
@@ -50,6 +53,14 @@ const ProjectDetailPage: FC = () => {
             {t.notesLabel}: {client.notes}
           </p>
         )}
+      </section>
+
+      <section className={styles.section}>
+        <h3>{t.interactionsSectionTitle}</h3>
+        <InteractionForm projectId={project._id} />
+        <div className={styles.interactionListWrapper}>
+          <InteractionList interactions={interactions ?? []} />
+        </div>
       </section>
     </div>
   );

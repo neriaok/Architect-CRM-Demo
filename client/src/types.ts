@@ -35,3 +35,14 @@ export interface Project {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface Interaction {
+  _id: string;
+  projectId: string;
+  date: string;
+  rawText: string;
+  summary: string;
+  suggestedFollowUp: string;
+  createdAt: string;
+  updatedAt: string;
+}

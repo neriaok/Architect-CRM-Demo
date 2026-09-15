@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { Project } from "../../types";
+import type { Interaction, Project } from "../../types";
 
 interface ApiSuccessEnvelope<T> {
   success: true;
@@ -9,7 +9,7 @@ interface ApiSuccessEnvelope<T> {
 export const projectsApi = createApi({
   reducerPath: "projectsApi",
   baseQuery: fetchBaseQuery({ baseUrl: "/api" }),
-  tagTypes: ["Project"],
+  tagTypes: ["Project", "Interaction"],
   endpoints: (builder) => ({
     getProjects: builder.query<Project[], void>({
       query: () => "/projects",
@@ -27,7 +27,26 @@ export const projectsApi = createApi({
       transformResponse: (response: ApiSuccessEnvelope<Project>) => response.data,
       providesTags: (_result, _error, id) => [{ type: "Project", id }],
     }),
+    getInteractions: builder.query<Interaction[], string>({
+      query: (projectId) => `/projects/${projectId}/interactions`,
+      transformResponse: (response: ApiSuccessEnvelope<Interaction[]>) => response.data,
+      providesTags: (_result, _error, projectId) => [{ type: "Interaction", id: projectId }],
+    }),
+    createInteraction: builder.mutation<Interaction, { projectId: string; rawText: string }>({
+      query: ({ projectId, rawText }) => ({
+        url: `/projects/${projectId}/interactions`,
+        method: "POST",
+        body: { rawText },
+      }),
+      transformResponse: (response: ApiSuccessEnvelope<Interaction>) => response.data,
+      invalidatesTags: (_result, _error, { projectId }) => [{ type: "Interaction", id: projectId }],
+    }),
   }),
 });
 
-export const { useGetProjectsQuery, useGetProjectByIdQuery } = projectsApi;
+export const {
+  useGetProjectsQuery,
+  useGetProjectByIdQuery,
+  useGetInteractionsQuery,
+  useCreateInteractionMutation,
+} = projectsApi;
