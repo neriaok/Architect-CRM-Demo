@@ -80,9 +80,9 @@ task.
   text collapsed under a toggle. Updated via RTK Query cache invalidation
   with no full page reload.
 
-The prompt explicitly asks the CLI to respond in the same language as the
-notes it was given, so Hebrew input reliably gets a Hebrew summary instead
-of an English one.
+The server detects Hebrew via a Unicode-range check on the input and tells
+the CLI exactly which language to answer in - asking it to just "match the
+input language" proved inconsistent in practice.
 
 Requires the `claude` CLI to already be installed and authenticated on the
 machine running the server (`claude auth status` / `ant auth status`) —
@@ -103,3 +103,15 @@ Client + Project together in one flow (client name, project title, initial
 stage). It makes two sequential calls to the existing `POST /clients` and
 `POST /projects` endpoints, then navigates straight to the new project's
 detail page.
+
+## Stage D — "Stuck project" detection (done)
+
+`GET /api/projects` now also returns `daysSinceLastInteraction` and
+`needsAttention` per project, computed server-side (`utils/projectAttention.ts`)
+from the most recent `Interaction` date - or `createdAt` if it has none -
+against a per-stage tolerance (e.g. 3 days for a fresh `inquiry`, 30 for
+`permits`, which can legitimately sit quiet waiting on a public body). A
+"Needs attention" badge shows on the project card in the list when a
+project exceeds its stage's threshold. Computed server-side rather than
+purely client-side so the same logic can be reused by other features
+(e.g. the general AI assistant) without duplicating it.
