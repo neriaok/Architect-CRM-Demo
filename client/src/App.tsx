@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import styles from "./App.module.css";
 import ProjectDetailPage from "./pages/ProjectDetailPage";
 import ProjectsListPage from "./pages/ProjectsListPage";
+import AssistantWidget from "./components/AssistantWidget";
 import { useAppDispatch, useAppSelector } from "./hooks/useAppDispatch";
 import { setLanguage } from "./features/language/languageSlice";
 import type { Language } from "./i18n/translations";
@@ -50,6 +51,7 @@ const App: FC = () => {
           <Route path="/projects/:id" element={<ProjectDetailPage />} />
         </Routes>
       </main>
+      <AssistantWidget />
     </div>
   );
 };

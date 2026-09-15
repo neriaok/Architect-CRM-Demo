@@ -50,6 +50,13 @@ export interface Interaction {
   updatedAt: string;
 }
 
+export type AssistantSource = "ai" | "demo";
+
+export interface AssistantAnswer {
+  answer: string;
+  source: AssistantSource;
+}
+
 export interface Contact {
   _id: string;
   name: string;

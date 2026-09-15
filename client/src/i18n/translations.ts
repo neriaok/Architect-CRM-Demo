@@ -49,6 +49,14 @@ export interface Translations {
   newProjectError: string;
   stageLabels: Record<ProjectStage, string>;
   roleLabels: Record<string, string>;
+  assistantToggleButton: string;
+  assistantTitle: string;
+  assistantPlaceholder: string;
+  assistantAskButton: string;
+  assistantAsking: string;
+  assistantEmptyHint: string;
+  assistantError: string;
+  assistantDemoBadge: string;
 }
 
 export const TRANSLATIONS: Record<Language, Translations> = {
@@ -114,6 +122,14 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       consultant: "יועץ/ת",
       architect: "אדריכל/ית",
     },
+    assistantToggleButton: "שאלו את העוזר",
+    assistantTitle: "עוזר AI",
+    assistantPlaceholder: 'למשל: "אילו פרויקטים תקועים?"',
+    assistantAskButton: "שלח",
+    assistantAsking: "חושב…",
+    assistantEmptyHint: 'שאלו על הפרויקטים והלקוחות שלכם, למשל "כמה פרויקטים יש בשלב היתרים?".',
+    assistantError: "השאלה נכשלה. נסו שוב.",
+    assistantDemoBadge: "מצב הדגמה (ה-AI המלא לא זמין כרגע)",
   },
   en: {
     projectsTitle: "Projects",
@@ -177,5 +193,13 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       consultant: "Consultant",
       architect: "Architect",
     },
+    assistantToggleButton: "Ask the assistant",
+    assistantTitle: "AI Assistant",
+    assistantPlaceholder: 'e.g. "Which projects are stuck?"',
+    assistantAskButton: "Send",
+    assistantAsking: "Thinking…",
+    assistantEmptyHint: 'Ask about your projects and clients, e.g. "How many projects are in the permits stage?".',
+    assistantError: "The question failed. Please try again.",
+    assistantDemoBadge: "Demo mode (full AI is currently unavailable)",
   },
 };
