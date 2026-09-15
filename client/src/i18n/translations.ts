@@ -26,7 +26,11 @@ export interface Translations {
   noInteractionsYet: string;
   followUpLabel: string;
   originalTextLabel: string;
+  contactsSectionTitle: string;
+  noContactsYet: string;
+  stageUpdateError: string;
   stageLabels: Record<ProjectStage, string>;
+  roleLabels: Record<string, string>;
 }
 
 export const TRANSLATIONS: Record<Language, Translations> = {
@@ -54,6 +58,9 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     noInteractionsYet: "אין עדיין אינטראקציות.",
     followUpLabel: "משימת המשך מוצעת",
     originalTextLabel: "הטקסט המקורי",
+    contactsSectionTitle: "אנשי קשר",
+    noContactsYet: "אין אנשי קשר רשומים.",
+    stageUpdateError: "עדכון השלב נכשל.",
     stageLabels: {
       inquiry: "פנייה ראשונית",
       consultation: "ייעוץ",
@@ -64,6 +71,12 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       detailed_design: "תכנון מפורט",
       construction_oversight: "פיקוח בנייה",
       handover: "מסירה",
+    },
+    roleLabels: {
+      contractor: "קבלן",
+      engineer: "מהנדס/ת",
+      consultant: "יועץ/ת",
+      architect: "אדריכל/ית",
     },
   },
   en: {
@@ -90,6 +103,9 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     noInteractionsYet: "No interactions yet.",
     followUpLabel: "Suggested follow-up",
     originalTextLabel: "Original text",
+    contactsSectionTitle: "Contacts",
+    noContactsYet: "No contacts yet.",
+    stageUpdateError: "Failed to update stage.",
     stageLabels: {
       inquiry: "Inquiry",
       consultation: "Consultation",
@@ -100,6 +116,12 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       detailed_design: "Detailed Design",
       construction_oversight: "Construction Oversight",
       handover: "Handover",
+    },
+    roleLabels: {
+      contractor: "Contractor",
+      engineer: "Engineer",
+      consultant: "Consultant",
+      architect: "Architect",
     },
   },
 };

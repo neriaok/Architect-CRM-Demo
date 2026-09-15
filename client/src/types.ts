@@ -46,3 +46,13 @@ export interface Interaction {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface Contact {
+  _id: string;
+  name: string;
+  role: string;
+  projectId: string;
+  contactInfo?: ClientContactInfo;
+  createdAt: string;
+  updatedAt: string;
+}
