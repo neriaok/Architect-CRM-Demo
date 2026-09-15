@@ -10,23 +10,26 @@ interface InteractionFormProps {
 
 const InteractionForm: FC<InteractionFormProps> = ({ projectId }) => {
   const [rawText, setRawText] = useState("");
+  const [pendingMode, setPendingMode] = useState<"ai" | "plain" | null>(null);
   const [createInteraction, { isLoading, isError }] = useCreateInteractionMutation();
   const { t } = useTranslation();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (useAi: boolean) => {
     if (!rawText.trim() || isLoading) return;
 
+    setPendingMode(useAi ? "ai" : "plain");
     try {
-      await createInteraction({ projectId, rawText }).unwrap();
+      await createInteraction({ projectId, rawText, useAi }).unwrap();
       setRawText("");
     } catch {
       // isError from the hook already surfaces this to the user
+    } finally {
+      setPendingMode(null);
     }
   };
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit}>
+    <div className={styles.form}>
       <textarea
         className={styles.textarea}
         value={rawText}
@@ -36,11 +39,24 @@ const InteractionForm: FC<InteractionFormProps> = ({ projectId }) => {
       />
       <div className={styles.footer}>
         {isError && <span className={styles.error}>{t.interactionSubmitError}</span>}
-        <button type="submit" className={styles.submit} disabled={!rawText.trim() || isLoading}>
-          {isLoading ? t.interactionSubmitting : t.interactionSubmitButton}
+        <button
+          type="button"
+          className={styles.saveButton}
+          disabled={!rawText.trim() || isLoading}
+          onClick={() => handleSubmit(false)}
+        >
+          {pendingMode === "plain" ? t.interactionSaving : t.saveAsWrittenButton}
+        </button>
+        <button
+          type="button"
+          className={styles.aiButton}
+          disabled={!rawText.trim() || isLoading}
+          onClick={() => handleSubmit(true)}
+        >
+          {pendingMode === "ai" ? t.interactionSubmitting : t.aiEditButton}
         </button>
       </div>
-    </form>
+    </div>
   );
 };
 

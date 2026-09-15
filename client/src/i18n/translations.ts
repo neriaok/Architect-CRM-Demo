@@ -20,10 +20,17 @@ export interface Translations {
   notesLabel: string;
   interactionsSectionTitle: string;
   interactionFormPlaceholder: string;
-  interactionSubmitButton: string;
+  saveAsWrittenButton: string;
+  interactionSaving: string;
+  aiEditButton: string;
   interactionSubmitting: string;
   interactionSubmitError: string;
   noInteractionsYet: string;
+  aiGeneratedBadge: string;
+  deleteButton: string;
+  deleteInteractionConfirm: string;
+  deleteConfirmButton: string;
+  deleteInteractionError: string;
   followUpLabel: string;
   originalTextLabel: string;
   contactsSectionTitle: string;
@@ -61,10 +68,17 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     notesLabel: "הערות",
     interactionsSectionTitle: "אינטראקציות",
     interactionFormPlaceholder: "הדביקו כאן סיכום של שיחה או פגישה עם הלקוח...",
-    interactionSubmitButton: "סכם ושמור",
+    saveAsWrittenButton: "שמירה כפי שנכתב",
+    interactionSaving: "שומר…",
+    aiEditButton: "עריכת AI",
     interactionSubmitting: "מסכם…",
     interactionSubmitError: "הסיכום נכשל. נסו שוב.",
     noInteractionsYet: "אין עדיין אינטראקציות.",
+    aiGeneratedBadge: "נוצר ע\"י AI",
+    deleteButton: "מחיקה",
+    deleteInteractionConfirm: "למחוק את האינטראקציה הזו? לא ניתן לשחזר.",
+    deleteConfirmButton: "כן, מחק",
+    deleteInteractionError: "המחיקה נכשלה. נסו שוב.",
     followUpLabel: "משימת המשך מוצעת",
     originalTextLabel: "הטקסט המקורי",
     contactsSectionTitle: "אנשי קשר",
@@ -115,10 +129,17 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     notesLabel: "Notes",
     interactionsSectionTitle: "Interactions",
     interactionFormPlaceholder: "Paste a summary of a call or meeting with the client...",
-    interactionSubmitButton: "Summarize & Save",
+    saveAsWrittenButton: "Save as written",
+    interactionSaving: "Saving…",
+    aiEditButton: "AI Edit",
     interactionSubmitting: "Summarizing…",
     interactionSubmitError: "Failed to summarize. Please try again.",
     noInteractionsYet: "No interactions yet.",
+    aiGeneratedBadge: "AI-generated",
+    deleteButton: "Delete",
+    deleteInteractionConfirm: "Delete this interaction? This can't be undone.",
+    deleteConfirmButton: "Yes, delete",
+    deleteInteractionError: "Failed to delete. Please try again.",
     followUpLabel: "Suggested follow-up",
     originalTextLabel: "Original text",
     contactsSectionTitle: "Contacts",

@@ -42,6 +42,7 @@ export interface Interaction {
   date: string;
   rawText: string;
   summary: string;
+  summarizedByAi: boolean;
   suggestedFollowUp?: string;
   createdAt: string;
   updatedAt: string;

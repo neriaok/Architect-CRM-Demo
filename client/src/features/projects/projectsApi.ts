@@ -53,13 +53,23 @@ export const projectsApi = createApi({
       transformResponse: (response: ApiSuccessEnvelope<Interaction[]>) => response.data,
       providesTags: (_result, _error, projectId) => [{ type: "Interaction", id: projectId }],
     }),
-    createInteraction: builder.mutation<Interaction, { projectId: string; rawText: string }>({
-      query: ({ projectId, rawText }) => ({
+    createInteraction: builder.mutation<
+      Interaction,
+      { projectId: string; rawText: string; useAi: boolean }
+    >({
+      query: ({ projectId, rawText, useAi }) => ({
         url: `/projects/${projectId}/interactions`,
         method: "POST",
-        body: { rawText },
+        body: { rawText, useAi },
       }),
       transformResponse: (response: ApiSuccessEnvelope<Interaction>) => response.data,
+      invalidatesTags: (_result, _error, { projectId }) => [{ type: "Interaction", id: projectId }],
+    }),
+    deleteInteraction: builder.mutation<void, { projectId: string; interactionId: string }>({
+      query: ({ projectId, interactionId }) => ({
+        url: `/projects/${projectId}/interactions/${interactionId}`,
+        method: "DELETE",
+      }),
       invalidatesTags: (_result, _error, { projectId }) => [{ type: "Interaction", id: projectId }],
     }),
     getContacts: builder.query<Contact[], string>({
@@ -77,5 +87,6 @@ export const {
   useUpdateProjectStageMutation,
   useGetInteractionsQuery,
   useCreateInteractionMutation,
+  useDeleteInteractionMutation,
   useGetContactsQuery,
 } = projectsApi;

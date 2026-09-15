@@ -28,7 +28,18 @@
   font-size: 13px;
 }
 
-.submit {
+.saveButton {
+  padding: 8px 18px;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.aiButton {
   padding: 8px 18px;
   border: none;
   border-radius: 999px;
@@ -39,7 +50,8 @@
   cursor: pointer;
 }
 
-.submit:disabled {
+.saveButton:disabled,
+.aiButton:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
