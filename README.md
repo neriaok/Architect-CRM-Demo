@@ -27,8 +27,10 @@ Every response is `{ success: true, data }` or `{ success: false, error }`.
 - `GET /health`
 - `POST /api/clients`, `GET /api/clients`, `GET /api/clients/:id`, `PUT /api/clients/:id`, `DELETE /api/clients/:id`
 - `POST /api/projects`, `GET /api/projects` (client populated), `GET /api/projects/:id` (client populated), `PUT /api/projects/:id`, `DELETE /api/projects/:id`
+- `PATCH /api/projects/:id/stage` — updates just the stage
 - `POST /api/projects/:id/interactions` — pastes free-text call/meeting notes, asks Claude for a 2-3 sentence summary + a suggested follow-up task, saves it as an `Interaction`
 - `GET /api/projects/:id/interactions` — past interactions for a project, newest first
+- `POST /api/projects/:id/contacts`, `GET /api/projects/:id/contacts` — contacts (contractor/engineer/consultant/...) linked to a project
 
 Project `stage` is one of: `inquiry`, `consultation`, `quote`, `contract`,
 `preliminary_design`, `permits`, `detailed_design`, `construction_oversight`, `handover`.
@@ -71,3 +73,10 @@ structured summary and a suggested follow-up task.
 Requires a real `ANTHROPIC_API_KEY` in `server/.env` to actually generate
 summaries — without one, the endpoint fails gracefully with a clear error
 instead of a crash.
+
+## Stage A — Project detail: stage control + contacts (done)
+
+- The project detail page's stage is now an editable dropdown (`PATCH /api/projects/:id/stage`)
+  instead of a read-only badge.
+- A **Contacts** section lists everyone linked to the project (name + role —
+  contractor, engineer, consultant, ...), backed by a new `Contact` model.
