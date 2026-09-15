@@ -39,7 +39,7 @@ React + TypeScript (Vite) frontend, following the react-conventions skill
 (functional components typed as `FC<Props>`, CSS Modules, Redux Toolkit +
 RTK Query for server state, one folder per component with an `index.ts`).
 
-- **Projects list** — cards showing title, client, and stage badge, filterable by stage.
+- **Projects list** — cards showing title, client, and stage badge, filterable by stage and searchable by client/project name.
 - **Project detail** — full client info (name, email, phone, address, notes).
 - **Bilingual UI** — Hebrew by default (RTL) with an English toggle (LTR) in the header; the choice persists in `localStorage`.
 
