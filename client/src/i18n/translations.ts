@@ -23,6 +23,7 @@ export interface Translations {
   saveAsWrittenButton: string;
   interactionSaving: string;
   aiEditButton: string;
+  aiEditHint: string;
   interactionSubmitting: string;
   interactionSubmitError: string;
   noInteractionsYet: string;
@@ -71,6 +72,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     saveAsWrittenButton: "שמירה כפי שנכתב",
     interactionSaving: "שומר…",
     aiEditButton: "עריכת AI",
+    aiEditHint: "זה עשוי לקחת כמה שניות…",
     interactionSubmitting: "מסכם…",
     interactionSubmitError: "הסיכום נכשל. נסו שוב.",
     noInteractionsYet: "אין עדיין אינטראקציות.",
@@ -132,6 +134,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     saveAsWrittenButton: "Save as written",
     interactionSaving: "Saving…",
     aiEditButton: "AI Edit",
+    aiEditHint: "This may take a few seconds…",
     interactionSubmitting: "Summarizing…",
     interactionSubmitError: "Failed to summarize. Please try again.",
     noInteractionsYet: "No interactions yet.",

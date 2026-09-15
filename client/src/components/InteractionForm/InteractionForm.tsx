@@ -39,12 +39,14 @@ const InteractionForm: FC<InteractionFormProps> = ({ projectId }) => {
       />
       <div className={styles.footer}>
         {isError && <span className={styles.error}>{t.interactionSubmitError}</span>}
+        {pendingMode === "ai" && <span className={styles.hint}>{t.aiEditHint}</span>}
         <button
           type="button"
           className={styles.saveButton}
           disabled={!rawText.trim() || isLoading}
           onClick={() => handleSubmit(false)}
         >
+          {pendingMode === "plain" && <span className={styles.spinner} aria-hidden="true" />}
           {pendingMode === "plain" ? t.interactionSaving : t.saveAsWrittenButton}
         </button>
         <button
@@ -53,6 +55,7 @@ const InteractionForm: FC<InteractionFormProps> = ({ projectId }) => {
           disabled={!rawText.trim() || isLoading}
           onClick={() => handleSubmit(true)}
         >
+          {pendingMode === "ai" && <span className={styles.spinner} aria-hidden="true" />}
           {pendingMode === "ai" ? t.interactionSubmitting : t.aiEditButton}
         </button>
       </div>
