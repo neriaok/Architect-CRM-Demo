@@ -27,6 +27,15 @@ export const projectsApi = createApi({
       transformResponse: (response: ApiSuccessEnvelope<Project>) => response.data,
       providesTags: (_result, _error, id) => [{ type: "Project", id }],
     }),
+    createProject: builder.mutation<Project, { title: string; clientId: string; stage: ProjectStage }>({
+      query: (body) => ({
+        url: "/projects",
+        method: "POST",
+        body,
+      }),
+      transformResponse: (response: ApiSuccessEnvelope<Project>) => response.data,
+      invalidatesTags: [{ type: "Project", id: "LIST" }],
+    }),
     updateProjectStage: builder.mutation<Project, { projectId: string; stage: ProjectStage }>({
       query: ({ projectId, stage }) => ({
         url: `/projects/${projectId}/stage`,
@@ -64,6 +73,7 @@ export const projectsApi = createApi({
 export const {
   useGetProjectsQuery,
   useGetProjectByIdQuery,
+  useCreateProjectMutation,
   useUpdateProjectStageMutation,
   useGetInteractionsQuery,
   useCreateInteractionMutation,

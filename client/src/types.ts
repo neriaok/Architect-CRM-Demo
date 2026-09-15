@@ -21,7 +21,7 @@ export interface ClientContactInfo {
 export interface Client {
   _id: string;
   name: string;
-  contactInfo: ClientContactInfo;
+  contactInfo?: ClientContactInfo;
   notes?: string;
   createdAt: string;
   updatedAt: string;

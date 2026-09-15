@@ -29,6 +29,15 @@ export interface Translations {
   contactsSectionTitle: string;
   noContactsYet: string;
   stageUpdateError: string;
+  newProjectButton: string;
+  newProjectModalTitle: string;
+  clientNameLabel: string;
+  projectTitleLabel: string;
+  initialStageLabel: string;
+  createButton: string;
+  cancelButton: string;
+  creatingButton: string;
+  newProjectError: string;
   stageLabels: Record<ProjectStage, string>;
   roleLabels: Record<string, string>;
 }
@@ -61,6 +70,15 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     contactsSectionTitle: "אנשי קשר",
     noContactsYet: "אין אנשי קשר רשומים.",
     stageUpdateError: "עדכון השלב נכשל.",
+    newProjectButton: "פרויקט חדש",
+    newProjectModalTitle: "יצירת פרויקט חדש",
+    clientNameLabel: "שם הלקוח",
+    projectTitleLabel: "שם הפרויקט",
+    initialStageLabel: "שלב התחלתי",
+    createButton: "צור",
+    cancelButton: "ביטול",
+    creatingButton: "יוצר…",
+    newProjectError: "יצירת הפרויקט נכשלה. נסו שוב.",
     stageLabels: {
       inquiry: "פנייה ראשונית",
       consultation: "ייעוץ",
@@ -106,6 +124,15 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     contactsSectionTitle: "Contacts",
     noContactsYet: "No contacts yet.",
     stageUpdateError: "Failed to update stage.",
+    newProjectButton: "New Project",
+    newProjectModalTitle: "New Project",
+    clientNameLabel: "Client Name",
+    projectTitleLabel: "Project Title",
+    initialStageLabel: "Initial Stage",
+    createButton: "Create",
+    cancelButton: "Cancel",
+    creatingButton: "Creating…",
+    newProjectError: "Failed to create project. Please try again.",
     stageLabels: {
       inquiry: "Inquiry",
       consultation: "Consultation",

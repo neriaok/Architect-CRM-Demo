@@ -61,17 +61,17 @@ const ProjectDetailPage: FC = () => {
       <section className={styles.section}>
         <h3>{t.clientSectionTitle}</h3>
         <p className={styles.clientName}>{client.name}</p>
-        {client.contactInfo.email && (
+        {client.contactInfo?.email && (
           <p>
             {t.emailLabel}: {client.contactInfo.email}
           </p>
         )}
-        {client.contactInfo.phone && (
+        {client.contactInfo?.phone && (
           <p>
             {t.phoneLabel}: {client.contactInfo.phone}
           </p>
         )}
-        {client.contactInfo.address && (
+        {client.contactInfo?.address && (
           <p>
             {t.addressLabel}: {client.contactInfo.address}
           </p>

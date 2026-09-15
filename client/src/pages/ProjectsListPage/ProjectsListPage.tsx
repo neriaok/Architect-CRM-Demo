@@ -3,6 +3,7 @@ import type { FC } from "react";
 import { Link } from "react-router-dom";
 import { useGetProjectsQuery } from "../../features/projects/projectsApi";
 import StageBadge from "../../components/StageBadge";
+import NewProjectModal from "../../components/NewProjectModal";
 import { PROJECT_STAGES } from "../../types";
 import { useTranslation } from "../../hooks/useTranslation";
 import styles from "./ProjectsListPage.module.css";
@@ -11,6 +12,7 @@ const ProjectsListPage: FC = () => {
   const { data: projects, isLoading, isError } = useGetProjectsQuery();
   const [stageFilter, setStageFilter] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { t } = useTranslation();
 
   const filteredProjects = useMemo(() => {
@@ -54,8 +56,13 @@ const ProjectsListPage: FC = () => {
               ))}
             </select>
           </label>
+          <button type="button" className={styles.newProjectButton} onClick={() => setIsModalOpen(true)}>
+            + {t.newProjectButton}
+          </button>
         </div>
       </div>
+
+      {isModalOpen && <NewProjectModal onClose={() => setIsModalOpen(false)} />}
 
       {filteredProjects.length === 0 ? (
         <p className={styles.empty}>{t.noProjectsMatch}</p>
