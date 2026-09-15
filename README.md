@@ -28,8 +28,9 @@ Every response is `{ success: true, data }` or `{ success: false, error }`.
 - `POST /api/clients`, `GET /api/clients`, `GET /api/clients/:id`, `PUT /api/clients/:id`, `DELETE /api/clients/:id`
 - `POST /api/projects`, `GET /api/projects` (client populated), `GET /api/projects/:id` (client populated), `PUT /api/projects/:id`, `DELETE /api/projects/:id`
 - `PATCH /api/projects/:id/stage` — updates just the stage
-- `POST /api/projects/:id/interactions` — pastes free-text call/meeting notes, asks Claude for a 2-3 sentence summary + a suggested follow-up task, saves it as an `Interaction`
+- `POST /api/projects/:id/interactions` — saves free-text call/meeting notes as an `Interaction`; pass `useAi: true` to have Claude turn it into a 2-3 sentence summary first, or omit it to save the text verbatim
 - `GET /api/projects/:id/interactions` — past interactions for a project, newest first
+- `DELETE /api/projects/:id/interactions/:interactionId` — deletes one interaction
 - `POST /api/projects/:id/contacts`, `GET /api/projects/:id/contacts` — contacts (contractor/engineer/consultant/...) linked to a project
 
 Project `stage` is one of: `inquiry`, `consultation`, `quote`, `contract`,
@@ -71,14 +72,22 @@ task.
   a `502 Bad Gateway` `ApiError` with a clear message instead of a raw
   stack trace.
 - **Frontend**: a "paste a call/meeting summary" form on the project detail
-  page, plus a list of past interactions (summary and the original text
-  collapsed under a toggle), updated via RTK Query cache invalidation with
-  no full page reload.
+  page with two explicit actions — **Save as written** (verbatim, instant)
+  or **AI Edit** (sends it through the CLI) — so an architect who wants the
+  client's exact words isn't forced through a rewrite. Past interactions
+  show an "AI-generated" badge only on the ones that went through the CLI,
+  each with a delete button behind a confirmation dialog, and the original
+  text collapsed under a toggle. Updated via RTK Query cache invalidation
+  with no full page reload.
+
+The prompt explicitly asks the CLI to respond in the same language as the
+notes it was given, so Hebrew input reliably gets a Hebrew summary instead
+of an English one.
 
 Requires the `claude` CLI to already be installed and authenticated on the
 machine running the server (`claude auth status` / `ant auth status`) —
-without it, the endpoint fails gracefully with a clear error instead of a
-crash.
+without it, the AI-Edit path fails gracefully with a clear error instead of
+a crash; Save-as-written never touches the CLI.
 
 ## Stage A — Project detail: stage control + contacts (done)
 
