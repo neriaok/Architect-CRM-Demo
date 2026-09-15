@@ -4,17 +4,28 @@ import { ApiError } from "../utils/ApiError";
 
 const CLI_TIMEOUT_MS = 45_000;
 
-const PROMPT_INSTRUCTION =
-  "Summarize this client interaction in 2-3 sentences, then suggest one concrete " +
-  "follow-up task. Respond in plain text, no markdown formatting. Write your response " +
-  "in the same language as the interaction notes below - do not translate it.\n\n";
+// Hebrew Unicode block - used to deterministically pick the response language
+// instead of asking the model to infer it, which proved inconsistent in practice.
+const HEBREW_CHARACTERS = /[֐-׿]/;
+
+function buildPrompt(rawText: string): string {
+  const languageInstruction = HEBREW_CHARACTERS.test(rawText)
+    ? "Respond in Hebrew."
+    : "Respond in English.";
+
+  return (
+    "Summarize this client interaction in 2-3 sentences, then suggest one concrete " +
+    `follow-up task. Respond in plain text, no markdown formatting. ${languageInstruction}\n\n` +
+    rawText
+  );
+}
 
 export interface InteractionSummary {
   summary: string;
 }
 
 export function summarizeInteraction(rawText: string): Promise<InteractionSummary> {
-  const prompt = PROMPT_INSTRUCTION + rawText;
+  const prompt = buildPrompt(rawText);
 
   return new Promise((resolve, reject) => {
     // The npm-installed `claude` CLI resolves to a .cmd shim on Windows, and execFile
