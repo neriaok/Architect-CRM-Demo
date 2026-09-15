@@ -34,6 +34,8 @@ export interface Project {
   stage: ProjectStage;
   createdAt: string;
   updatedAt: string;
+  daysSinceLastInteraction?: number;
+  needsAttention?: boolean;
 }
 
 export interface Interaction {

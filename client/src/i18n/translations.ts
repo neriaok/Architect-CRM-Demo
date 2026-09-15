@@ -7,6 +7,7 @@ export interface Translations {
   searchPlaceholder: string;
   stageLabel: string;
   allStages: string;
+  needsAttentionBadge: string;
   noProjectsMatch: string;
   failedToLoadProjects: string;
   loadingProjects: string;
@@ -56,6 +57,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     searchPlaceholder: "חיפוש לפי שם לקוח או פרויקט...",
     stageLabel: "שלב",
     allStages: "כל השלבים",
+    needsAttentionBadge: "דורש תשומת לב",
     noProjectsMatch: "אין פרויקטים התואמים לסינון זה.",
     failedToLoadProjects: "טעינת הפרויקטים נכשלה.",
     loadingProjects: "טוען פרויקטים…",
@@ -118,6 +120,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     searchPlaceholder: "Search by client or project name...",
     stageLabel: "Stage",
     allStages: "All stages",
+    needsAttentionBadge: "Needs attention",
     noProjectsMatch: "No projects match this filter.",
     failedToLoadProjects: "Failed to load projects.",
     loadingProjects: "Loading projects…",

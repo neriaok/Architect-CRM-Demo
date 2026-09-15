@@ -72,7 +72,12 @@ const ProjectsListPage: FC = () => {
             <Link key={project._id} to={`/projects/${project._id}`} className={styles.card}>
               <div className={styles.cardHeader}>
                 <h3>{project.title}</h3>
-                <StageBadge stage={project.stage} />
+                <div className={styles.badges}>
+                  {project.needsAttention && (
+                    <span className={styles.attentionBadge}>{t.needsAttentionBadge}</span>
+                  )}
+                  <StageBadge stage={project.stage} />
+                </div>
               </div>
               <p className={styles.clientName}>{project.clientId.name}</p>
             </Link>

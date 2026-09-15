@@ -7,6 +7,8 @@
   --color-accent-bg: #eee7da;
   --color-accent-text: #7a5c2e;
   --color-danger: #b3452c;
+  --color-warning-bg: #fdecc8;
+  --color-warning-text: #8a5a00;
   --radius: 8px;
   color-scheme: light;
 }
